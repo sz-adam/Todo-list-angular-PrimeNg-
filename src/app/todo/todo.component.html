@@ -1,0 +1,54 @@
+<div class="div">
+<div class="todoDiv">
+
+    <div class="card">
+        <p-messages [(value)]="this.service.messages" [enableService]="false"></p-messages>
+    </div>
+
+    <label>Teendők</label>
+    <input type="text" id="todoInput" (keyup.enter)="this.service.addItem()" pInputText [(ngModel)]="service.todo.title" />
+    <p-button styleClass="p-button-sm" (click)="this.service.addItem()"><i class="pi pi-plus"></i></p-button>
+    <div class="container">
+        <div class="container-right">
+            <h1>Teendőim</h1>
+            <div *ngFor="let todos of this.service.todoItemsArray">
+                <p>
+                    {{todos.title}}
+                  
+                    <p-button styleClass="p-button-danger  p-button-sm" (click)="this.service.deleteItem(todos)"><i
+                            class="pi pi-trash"></i></p-button>
+
+                    <p-button styleClass="p-button-sm" (click)="this.service.complete(todos)"
+                        icon="pi pi-check"></p-button>
+                    <p-button (click)="this.service.visibleEdit(todos)" styleClass="p-button-sm"
+                        label="Szerkesztés"></p-button>
+                </p>
+            </div>
+        </div>
+
+        <div class="container-left">
+            <h1>Kész Teendők</h1>
+            <div  *ngFor="let c of this.service.completeTodos">
+                <p>{{c.title}}
+                    
+                    <p-button styleClass="p-button-danger p-button-sm" (click)="this.service.completDelete(c)"><i
+                            class="pi pi-trash"></i></p-button>
+                            
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="this.service.isEdit">
+
+    <div class="card flex justify-content-center">
+        <p-dialog header="Szerkesztés" [(visible)]="this.service.visible" [style]="{width: '50vw'}">
+            <input type="text" pInputText (keyup.enter)="this.service.saveEdit()" [(ngModel)]="this.service.selectedTodo.title">
+            <p-button styleClass="p-button-success p-button-sm" (click)="this.service.saveEdit()"><i
+                    class="pi pi-save"></i>Mentés</p-button>
+            <p-button styleClass="p-button-secondary p-button-sm" (click)="this.service.cancelEdit()">Mégse</p-button>
+        </p-dialog>
+    </div>
+</div>
+</div>
